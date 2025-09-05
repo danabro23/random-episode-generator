@@ -2,27 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Random TV Episode Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>Happy 10 year anniversary! 💙</h1>
-    <p>What Should We Watch? 📺</p>
+  <main class="container">
+    <header class="hero">
+      <h1>Happy 10 year anniversary! <span class="heart">💙</span></h1>
+      <p class="subtitle">What should we watch? <span aria-hidden="true">📺</span></p>
+      <button id="pickBtn" class="btn btn-primary">Pick a Random Show &amp; Episode</button>
+      <div id="result" class="result" aria-live="polite"></div>
+    </header>
 
-    <!-- Top: Fully random picker -->
-    <button id="pickBtn">Pick a Random Show & Episode!</button>
-    <pre id="result"></pre>
+    <section class="card">
+      <h2>Or choose a show:</h2>
+      <div class="picker">
+        <label class="sr-only" for="showSelect">Choose a show</label>
+        <select id="showSelect" class="select">
+          <!-- placeholder; JS leaves this as the default -->
+          <option value="" selected disabled hidden>Choose a show…</option>
+        </select>
+        <button id="pickFromShowBtn" class="btn">Pick Random Episode</button>
+      </div>
+      <div id="resultSingle" class="result" aria-live="polite"></div>
+    </section>
 
-    <hr />
-
-    <!-- Bottom: Choose show, random episode -->
-    <h2>Or choose a show:</h2>
-    <select id="showSelect"></select>
-    <button id="pickFromShowBtn">Pick Random Episode</button>
-    <pre id="resultSingle"></pre>
-  </div>
+    <footer class="footer">
+      <small>Made with ❤️ for Emily</small>
+    </footer>
+  </main>
 
   <script src="app.js"></script>
 </body>
 </html>
+
