@@ -2,7 +2,7 @@ const apiKey = 'f2d40a6b7a6cd21204042b563b30848e'; // your TMDB key
 
 const shows = [
   { name: "Buffy the Vampire Slayer", tmdbId: 95 },
-  { name: "Charmed", tmdbId: 620 },
+  { name: "Charmed", tmdbId: 1816 },
   { name: "Criminal Minds", tmdbId: 4057 },
   { name: "Grey's Anatomy", tmdbId: 1416 },
   { name: "Law and Order SVU", tmdbId: 2734 },
