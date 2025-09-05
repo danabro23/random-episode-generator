@@ -1,4 +1,4 @@
-const apiKey = 'f2d40a6b7a6cd21204042b563b30848e'; // Replace with your real TMDB key
+const apiKey = 'f2d40a6b7a6cd21204042b563b30848e'; // your TMDB key
 
 const shows = [
   { name: "Buffy the Vampire Slayer", tmdbId: 95 },
@@ -18,7 +18,18 @@ const showSelect = document.getElementById('showSelect');
 const pickFromShowBtn = document.getElementById('pickFromShowBtn');
 const resultSingle = document.getElementById('resultSingle');
 
-// Populate dropdown
+// Ensure dropdown has a blank default (in case HTML was modified)
+if (!showSelect.querySelector('option[value=""]')) {
+  const blank = document.createElement('option');
+  blank.value = "";
+  blank.textContent = "Choose a show…";
+  blank.disabled = true;
+  blank.selected = true;
+  blank.hidden = true;
+  showSelect.appendChild(blank);
+}
+
+// Populate dropdown with shows
 shows.forEach(show => {
   const option = document.createElement('option');
   option.value = show.tmdbId;
@@ -26,36 +37,45 @@ shows.forEach(show => {
   showSelect.appendChild(option);
 });
 
-// Function: Pick random episode
+// Format a nice result string
+function formatResult(showName, seasonNumber, ep) {
+  return `📺 ${showName}
+Season: ${seasonNumber}
+Episode: ${ep.episode_number} — ${ep.name}
+
+${ep.overview || 'No overview available.'}`;
+}
+
+// Fetch & pick random episode
 function pickRandomEpisode(show, outputElement) {
+  if (!show) {
+    outputElement.textContent = 'Pick a show first 🙂';
+    return;
+  }
+
+  outputElement.textContent = 'Finding something good…';
+
   fetch(`https://api.themoviedb.org/3/tv/${show.tmdbId}?api_key=${apiKey}`)
     .then(res => res.json())
     .then(data => {
-      let seasons = data.seasons.filter(s => s.season_number > 0);
+      const seasons = (data.seasons || []).filter(s => s.season_number > 0);
+      if (!seasons.length) throw new Error('No seasons found');
 
       const randomSeason = seasons[Math.floor(Math.random() * seasons.length)];
       const seasonNumber = randomSeason.season_number;
 
-      fetch(`https://api.themoviedb.org/3/tv/${show.tmdbId}/season/${seasonNumber}?api_key=${apiKey}`)
+      return fetch(`https://api.themoviedb.org/3/tv/${show.tmdbId}/season/${seasonNumber}?api_key=${apiKey}`)
         .then(res => res.json())
         .then(seasonData => {
-          const episodes = seasonData.episodes;
+          const episodes = seasonData.episodes || [];
+          if (!episodes.length) throw new Error('No episodes found');
           const randomEpisode = episodes[Math.floor(Math.random() * episodes.length)];
-
-          outputElement.textContent = `📺 ${show.name}
-Season: ${seasonNumber}
-Episode: ${randomEpisode.episode_number} — ${randomEpisode.name}
-
-${randomEpisode.overview || 'No overview available.'}`;
-        })
-        .catch(err => {
-          console.error('Error fetching episodes:', err);
-          outputElement.textContent = 'Oops! Could not get episode details.';
+          outputElement.textContent = formatResult(show.name, seasonNumber, randomEpisode);
         });
     })
     .catch(err => {
-      console.error('Error fetching seasons:', err);
-      outputElement.textContent = 'Oops! Could not get show details.';
+      console.error(err);
+      outputElement.textContent = 'Oops! Could not get episode details.';
     });
 }
 
@@ -68,6 +88,7 @@ pickBtn.addEventListener('click', () => {
 // Event: Pick from dropdown
 pickFromShowBtn.addEventListener('click', () => {
   const selectedId = showSelect.value;
-  const selectedShow = shows.find(show => show.tmdbId == selectedId);
+  const selectedShow = shows.find(show => String(show.tmdbId) === String(selectedId));
   pickRandomEpisode(selectedShow, resultSingle);
 });
+
