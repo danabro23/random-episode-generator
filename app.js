@@ -18,17 +18,6 @@ const showSelect = document.getElementById('showSelect');
 const pickFromShowBtn = document.getElementById('pickFromShowBtn');
 const resultSingle = document.getElementById('resultSingle');
 
-// Ensure dropdown has a blank default (in case HTML was modified)
-if (!showSelect.querySelector('option[value=""]')) {
-  const blank = document.createElement('option');
-  blank.value = "";
-  blank.textContent = "Choose a show…";
-  blank.disabled = true;
-  blank.selected = true;
-  blank.hidden = true;
-  showSelect.appendChild(blank);
-}
-
 // Populate dropdown with shows
 shows.forEach(show => {
   const option = document.createElement('option');
@@ -91,4 +80,3 @@ pickFromShowBtn.addEventListener('click', () => {
   const selectedShow = shows.find(show => String(show.tmdbId) === String(selectedId));
   pickRandomEpisode(selectedShow, resultSingle);
 });
-
