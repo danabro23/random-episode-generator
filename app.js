@@ -158,4 +158,3 @@ pickFromShowBtn.addEventListener('click', () => {
   const selectedShow = shows.find(show => String(show.tmdbId) === String(selectedId));
   pickRandomEpisode(selectedShow, resultSingle);
 });
-
