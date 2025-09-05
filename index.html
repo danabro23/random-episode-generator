@@ -12,7 +12,11 @@
 <body>
   <main class="container">
     <header class="hero">
-      <h1>Happy 10 year anniversary! <span class="heart">💙</span></h1>
+      <div class="anniversary">
+        <small>
+          Happy 10 year anniversary! <span class="red-heart">❤️</span> <span class="snowman">☃️</span>
+        </small>
+      </div>
       <p class="subtitle">What should we watch? <span aria-hidden="true">📺</span></p>
       <button id="pickBtn" class="btn btn-primary">Pick a Random Show &amp; Episode</button>
       <div id="result" class="result" aria-live="polite"></div>
@@ -23,20 +27,16 @@
       <div class="picker">
         <label class="sr-only" for="showSelect">Choose a show</label>
         <select id="showSelect" class="select">
-          <!-- placeholder; JS leaves this as the default -->
           <option value="" selected disabled hidden>Choose a show…</option>
         </select>
         <button id="pickFromShowBtn" class="btn">Pick Random Episode</button>
       </div>
       <div id="resultSingle" class="result" aria-live="polite"></div>
     </section>
-
-    <footer class="footer">
-      <small>Made with ❤️ for Emily</small>
-    </footer>
   </main>
 
   <script src="app.js"></script>
 </body>
 </html>
+
 
